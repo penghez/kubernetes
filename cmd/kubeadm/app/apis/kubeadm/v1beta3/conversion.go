@@ -58,6 +58,10 @@ func Convert_kubeadm_JoinConfiguration_To_v1beta3_JoinConfiguration(in *kubeadm.
 // Convert_v1beta3_JoinConfiguration_To_kubeadm_JoinConfiguration converts a public JoinConfiguration to a private JoinConfiguration.
 func Convert_v1beta3_JoinConfiguration_To_kubeadm_JoinConfiguration(in *JoinConfiguration, out *kubeadm.JoinConfiguration, s conversion.Scope) error {
 	kubeadm.SetDefaultTimeouts(&out.Timeouts)
+	// Respect the timeout from the input configuration.
+	if in.Discovery.Timeout != nil {
+		out.Timeouts.Discovery = in.Discovery.Timeout
+	}
 	return autoConvert_v1beta3_JoinConfiguration_To_kubeadm_JoinConfiguration(in, out, s)
 }
 
